@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Neil's Land · A Vision for 10 Acres</title>
+<meta name="description" content="A first look at what ten acres in Kamloops could become." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --forest:#163b2a; --forest-2:#0e2a1d; --moss:#3c6e4f; --sage:#8fa687;
+  --sand:#f1e9d8; --paper:#fbf8f0; --paper-2:#f5efe2;
+  --clay:#c2774a; --gold:#c6a25b; --ink:#202a20; --muted:#5d6b59;
+  --shadow:0 18px 50px rgba(20,40,28,.16); --shadow-sm:0 6px 20px rgba(20,40,28,.10);
+  --r:18px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);
+  background:var(--paper);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:500;line-height:1.08;letter-spacing:-.01em;margin:0}
+p{margin:0 0 1rem}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.eyebrow{font-family:Inter;font-weight:600;font-size:.74rem;letter-spacing:.22em;text-transform:uppercase;color:var(--clay)}
+.lead{font-size:1.18rem;color:var(--muted)}
+
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  padding:18px 30px;transition:.35s ease}
+nav.solid{background:rgba(251,248,240,.92);backdrop-filter:blur(10px);box-shadow:var(--shadow-sm);padding:12px 30px}
+.brand{display:flex;align-items:center;gap:10px;font-family:Fraunces;font-size:1.15rem;color:#fff;transition:color .35s}
+nav.solid .brand{color:var(--forest)}
+.brand .dot{width:12px;height:12px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(198,162,91,.28)}
+.navlinks{display:flex;gap:28px;font-size:.92rem;font-weight:500}
+.navlinks a{color:rgba(255,255,255,.9);transition:color .35s}
+.navlinks a:hover{color:#fff}
+nav.solid .navlinks a{color:var(--muted)}
+nav.solid .navlinks a:hover{color:var(--forest)}
+.navlinks a.cta{padding:8px 16px;border:1px solid rgba(255,255,255,.5);border-radius:999px}
+nav.solid .navlinks a.cta{border-color:var(--moss);color:var(--moss)}
+.menu-toggle{display:none}
+
+/* hero */
+.hero{position:relative;min-height:100svh;display:flex;align-items:center;color:#fff;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:url('assets/hero.jpg') center 30%/cover no-repeat;transform:scale(1.06);
+  animation:slowzoom 26s ease-in-out infinite alternate}
+@keyframes slowzoom{to{transform:scale(1.0)}}
+.hero-veil{position:absolute;inset:0;background:
+  linear-gradient(180deg,rgba(12,28,20,.55) 0%,rgba(12,28,20,.30) 35%,rgba(12,28,20,.72) 100%)}
+.hero-content{position:relative;z-index:2;max-width:760px}
+.hero h1{font-size:clamp(2.7rem,7vw,5.2rem);margin:.5rem 0 1.2rem;text-shadow:0 2px 30px rgba(0,0,0,.3)}
+.hero .lead{color:rgba(255,255,255,.92);font-size:clamp(1.05rem,2.4vw,1.35rem);max-width:600px}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;margin-top:2rem}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:999px;font-weight:600;font-size:.98rem;
+  transition:.25s ease;cursor:pointer;border:1px solid transparent}
+.btn-primary{background:var(--gold);color:#21180a;box-shadow:0 12px 30px rgba(198,162,91,.4)}
+.btn-primary:hover{transform:translateY(-2px);background:#d3af67}
+.btn-ghost{border-color:rgba(255,255,255,.55);color:#fff}
+.btn-ghost:hover{background:rgba(255,255,255,.14)}
+.scrollcue{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:2;color:rgba(255,255,255,.8);
+  font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:8px}
+.scrollcue .line{width:1px;height:34px;background:linear-gradient(rgba(255,255,255,.7),transparent);animation:drop 1.8s ease-in-out infinite}
+@keyframes drop{0%,100%{opacity:.3;transform:scaleY(.5)}50%{opacity:1;transform:scaleY(1)}}
+
+/* sections */
+section{position:relative}
+.band{padding:clamp(70px,10vw,130px) 0}
+.band.sand{background:var(--paper-2)}
+.band.forest{background:linear-gradient(160deg,var(--forest),var(--forest-2));color:#fff}
+.center{text-align:center;max-width:720px;margin:0 auto}
+.sec-title{font-size:clamp(2rem,4.5vw,3.2rem);margin:.6rem 0 1rem}
+.band.forest .lead{color:rgba(255,255,255,.82)}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:54px}
+.stat{background:#fff;border-radius:var(--r);padding:26px 22px;box-shadow:var(--shadow-sm);text-align:center}
+.stat .n{font-family:Fraunces;font-size:1.9rem;color:var(--moss);line-height:1.1}
+.stat .l{font-size:.86rem;color:var(--muted);margin-top:8px}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin:54px 0 10px}
+.step{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:var(--r);padding:30px 26px}
+.band.forest .step{backdrop-filter:blur(4px)}
+.step .num{font-family:Fraunces;font-size:1.1rem;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;background:var(--gold);color:#21180a;margin-bottom:18px}
+.step h3{font-size:1.3rem;margin-bottom:.5rem}
+.step p{color:rgba(255,255,255,.78);margin:0;font-size:.97rem}
+
+/* 3d viewer */
+.viewer-card{margin-top:48px;border-radius:24px;overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,.4);
+  background:#0b0f14;position:relative}
+#viewer3d{position:relative;width:100%;height:min(74vh,680px);min-height:440px}
+#viewer3d canvas{display:block}
+.v-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#9fb0a6;font-size:.95rem}
+.v-toolbar{position:absolute;left:16px;top:16px;display:flex;flex-direction:column;gap:12px;z-index:3;
+  background:rgba(14,22,18,.78);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);
+  border-radius:14px;padding:14px 16px;color:#eaf1ea;width:220px}
+.v-toolbar .grp{font-size:.78rem}
+.v-toolbar label{display:flex;justify-content:space-between;color:#bcc9bf;margin-bottom:6px;font-size:.8rem}
+.seg{display:flex;gap:6px}
+.seg button{flex:1;padding:7px 0;background:#1c261f;color:#cdd8cd;border:1px solid #2c3a2e;border-radius:8px;
+  cursor:pointer;font-size:.78rem;font-family:Inter}
+.seg button.on{background:var(--gold);color:#21180a;border-color:var(--gold)}
+.v-toolbar input[type=range]{width:100%;accent-color:var(--gold)}
+.v-chk{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:.82rem;color:#cdd8cd}
+.v-chk input{accent-color:var(--gold)}
+.v-hint{position:absolute;right:16px;bottom:14px;z-index:3;color:rgba(255,255,255,.8);font-size:.78rem;
+  background:rgba(14,22,18,.6);padding:7px 12px;border-radius:999px}
+.v-legend{position:absolute;left:16px;bottom:14px;z-index:3;background:rgba(14,22,18,.78);border-radius:10px;
+  padding:9px 12px;color:#dce6dc;font-size:.72rem;display:none}
+.v-legend .bar{width:140px;height:10px;border-radius:3px;margin-bottom:5px;
+  background:linear-gradient(90deg,#30123b,#4145ab,#1fa187,#a2fc3c,#fabc2a,#e4460a,#7a0403)}
+.v-legend .ends{display:flex;justify-content:space-between}
+.viewer-cap{margin-top:18px;color:var(--muted);font-size:.95rem;text-align:center}
+.band.forest .viewer-cap{color:rgba(255,255,255,.7)}
+
+/* vision grid */
+.vision-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:56px}
+.feat{background:#fff;border-radius:var(--r);padding:30px 26px;box-shadow:var(--shadow-sm);
+  border:1px solid rgba(22,59,42,.06);transition:.3s ease}
+.feat:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+.feat .ico{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+  background:var(--paper-2);margin-bottom:18px}
+.feat .ico svg{width:26px;height:26px;stroke:var(--moss);fill:none;stroke-width:1.6}
+.feat h3{font-size:1.18rem;margin-bottom:.5rem}
+.feat p{font-size:.92rem;color:var(--muted);margin:0}
+.feat.wide{grid-column:span 2;background:linear-gradient(135deg,var(--moss),var(--forest));color:#fff}
+.feat.wide .ico{background:rgba(255,255,255,.16)}
+.feat.wide .ico svg{stroke:#fff}
+.feat.wide p{color:rgba(255,255,255,.85)}
+
+/* gallery */
+.gallery{columns:2;column-gap:22px;margin-top:54px}
+.gitem{break-inside:avoid;margin-bottom:22px;border-radius:var(--r);overflow:hidden;position:relative;cursor:zoom-in;
+  box-shadow:var(--shadow-sm);transition:.3s ease;background:#ddd}
+.gitem:hover{box-shadow:var(--shadow);transform:translateY(-4px)}
+.gitem img{width:100%;transition:.5s ease}
+.gitem:hover img{transform:scale(1.04)}
+.gitem .cap{position:absolute;left:0;right:0;bottom:0;padding:34px 20px 16px;color:#fff;font-weight:500;
+  background:linear-gradient(transparent,rgba(10,22,15,.8));font-size:.95rem;display:flex;align-items:center;gap:8px}
+.gitem .cap svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:1.8}
+
+/* lightbox */
+.lb{position:fixed;inset:0;z-index:100;background:rgba(8,14,10,.94);display:none;align-items:center;justify-content:center}
+.lb.open{display:flex}
+.lb-stage{position:relative;width:100%;height:100%;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.lb img{max-width:92vw;max-height:88vh;border-radius:8px;box-shadow:0 30px 80px rgba(0,0,0,.6);
+  transition:transform .3s ease;cursor:zoom-in;user-select:none;-webkit-user-drag:none}
+.lb img.zoomed{cursor:grab;transition:none}
+.lb-close,.lb-nav{position:absolute;z-index:2;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);
+  color:#fff;border-radius:999px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+.lb-close{top:22px;right:24px;width:46px;height:46px;font-size:1.4rem}
+.lb-close:hover,.lb-nav:hover{background:rgba(255,255,255,.25)}
+.lb-nav{top:50%;transform:translateY(-50%);width:54px;height:54px;font-size:1.6rem}
+.lb-prev{left:24px}.lb-next{right:24px}
+.lb-cap{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.85);
+  font-size:.9rem;letter-spacing:.02em;background:rgba(0,0,0,.4);padding:8px 18px;border-radius:999px}
+
+/* footer */
+footer{background:var(--forest-2);color:rgba(255,255,255,.8);text-align:center;padding:70px 24px 50px}
+footer .fbrand{font-family:Fraunces;font-size:1.6rem;color:#fff;margin-bottom:12px}
+footer p{max-width:520px;margin:0 auto .4rem;color:rgba(255,255,255,.7)}
+footer .fnote{margin-top:22px;font-size:.82rem;color:rgba(255,255,255,.45)}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+.reveal.in{opacity:1;transform:none}
+
+@media(max-width:920px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .steps{grid-template-columns:1fr}
+  .vision-grid{grid-template-columns:repeat(2,1fr)}
+  .feat.wide{grid-column:span 2}
+}
+@media(max-width:680px){
+  .navlinks{display:none}
+  .vision-grid{grid-template-columns:1fr}
+  .feat.wide{grid-column:span 1}
+  .gallery{columns:1}
+  .v-toolbar{width:170px;padding:11px 12px}
+  .lb-nav{width:44px;height:44px}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="brand" href="#top"><span class="dot"></span>Neil&rsquo;s Land</a>
+  <div class="navlinks">
+    <a href="#land">The Land</a>
+    <a href="#model">3D Model</a>
+    <a href="#vision">The Vision</a>
+    <a href="#gallery">Sample Plans</a>
+    <a class="cta" href="#model">Explore in 3D</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="hero-bg"></div>
+  <div class="hero-veil"></div>
+  <div class="wrap hero-content">
+    <span class="eyebrow" style="color:var(--gold)">For Neil &middot; Ten Acres in Kamloops</span>
+    <h1>Your land,<br>brought to life.</h1>
+    <p class="lead">A first look at what these ten acres could one day become. A place built for family,
+      for friends, and for years of good memories, shaped around the natural roll of the land and the
+      open view toward the river.</p>
+    <div class="hero-btns">
+      <a class="btn btn-primary" href="#model">Take a look in 3D
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="btn btn-ghost" href="#vision">See the vision</a>
+    </div>
+  </div>
+  <div class="scrollcue"><span>Scroll</span><span class="line"></span></div>
+</header>
+
+<!-- THE LAND -->
+<section class="band" id="land">
+  <div class="wrap center reveal">
+    <span class="eyebrow">Welcome</span>
+    <h2 class="sec-title">A beautiful piece of land, understood from the ground up</h2>
+    <p class="lead">Before deciding where anything should go, we wanted to truly understand the shape of
+      your property, every gentle rise and dip. Once we knew the land, we could start picturing all the
+      wonderful things that could live here. Here is what we found, and what we imagine for it.</p>
+  </div>
+  <div class="wrap">
+    <div class="stats">
+      <div class="stat reveal"><div class="n">10</div><div class="l">acres of open space to work with</div></div>
+      <div class="stat reveal"><div class="n">Gentle</div><div class="l">rolling slope, easy to build on</div></div>
+      <div class="stat reveal"><div class="n">River</div><div class="l">open views toward the southeast</div></div>
+      <div class="stat reveal"><div class="n">Room</div><div class="l">for a whole little community</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3D MODEL -->
+<section class="band forest" id="model">
+  <div class="wrap center reveal">
+    <span class="eyebrow" style="color:var(--gold)">The 3D Model</span>
+    <h2 class="sec-title">From a simple map to a model you can explore</h2>
+    <p class="lead">You handed us a flat survey of your land covered in thin curving lines. Here is the fun
+      part: we turned it into a living model you can spin, tilt and zoom, right here in your browser.</p>
+  </div>
+  <div class="wrap">
+    <div class="steps">
+      <div class="step reveal"><div class="num">1</div><h3>You shared your survey</h3>
+        <p>A picture of your land, covered in thin lines. Each line quietly marks a different height across the property.</p></div>
+      <div class="step reveal"><div class="num">2</div><h3>We followed the lines</h3>
+        <p>We traced every one of those lines to learn exactly how the ground rises and falls, corner to corner.</p></div>
+      <div class="step reveal"><div class="num">3</div><h3>We built it in 3D</h3>
+        <p>Then we shaped it all into the interactive model below, so you can see your land just like being up in the air above it.</p></div>
+    </div>
+
+    <div class="viewer-card reveal">
+      <div id="viewer3d">
+        <div class="v-loading" id="vLoading">Loading your land&hellip;</div>
+        <div class="v-toolbar">
+          <div class="grp">
+            <label>Surface</label>
+            <div class="seg" id="modeSeg">
+              <button data-mode="photo" class="on">Real photo</button>
+              <button data-mode="elev">By height</button>
+            </div>
+          </div>
+          <div class="grp">
+            <label>Make the hills pop <span id="exVal" style="color:#e7c878">2.5&times;</span></label>
+            <input type="range" id="exag" min="1" max="6" step="0.5" value="2.5">
+          </div>
+          <label class="v-chk"><input type="checkbox" id="contours"> Show the height lines</label>
+          <label class="v-chk"><input type="checkbox" id="spin"> Slowly rotate</label>
+        </div>
+        <div class="v-legend" id="vLegend"><div class="bar"></div><div class="ends"><span>lower</span><span>higher</span></div></div>
+        <div class="v-hint">Drag to look around &middot; scroll to zoom</div>
+      </div>
+    </div>
+    <p class="viewer-cap reveal">Your land is gently rolling, so we lifted the heights a little to make the
+      shape easy to enjoy. Slide it back to 1&times; to see the true, natural slope.</p>
+  </div>
+</section>
+
+<!-- THE VISION -->
+<section class="band sand" id="vision">
+  <div class="wrap center reveal">
+    <span class="eyebrow">The Vision</span>
+    <h2 class="sec-title">What we could create here</h2>
+    <p class="lead">Here is the exciting part. With the shape of the land understood, we can start placing the
+      things that would make this property truly special. Everything sits where it makes the most of the
+      views and the natural slope, including walkout basements that open right onto the hillside.</p>
+  </div>
+  <div class="wrap">
+    <div class="vision-grid">
+      <div class="feat wide reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></div>
+        <h3>Your home, at the heart of it all</h3>
+        <p>The residence already on the land stays as the centerpiece, the warm anchor that everything else is built around.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 21V9l5-4 5 4v12"/><path d="M14 21V12l4-3 2 1.5V21"/></svg></div>
+        <h3>Two larger homes</h3>
+        <p>Set on the higher ground for the very best views, with room for family to have their own space.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 21V10l4-3 4 3v11"/><path d="M13 21v-7l4-3 4 3v7"/></svg></div>
+        <h3>A handful of smaller homes</h3>
+        <p>Cozy, welcoming places for guests, friends or family to stay close by.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5"/></svg></div>
+        <h3>A shop and office</h3>
+        <p>A dedicated place to work, meet and look after the day to day of the property.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 21V8l9-4 9 4v13"/><path d="M9 21v-6h6v6"/></svg></div>
+        <h3>Workshop and craft spaces</h3>
+        <p>Plenty of room to build, make and tinker, for hobbies and hands on projects.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3l9 7v11H3V10z"/><circle cx="12" cy="14" r="3"/></svg></div>
+        <h3>A gathering pavilion</h3>
+        <p>A friendly central spot where everyone can come together for meals, events and good company.</p>
+      </div>
+      <div class="feat reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 16c2 0 2 2 4 2s2-2 4-2 2 2 4 2 2-2 4-2"/><path d="M6 12a6 6 0 0112 0"/></svg></div>
+        <h3>A pool and activity area</h3>
+        <p>Somewhere to relax, play and soak up long summer days right at the center of it all.</p>
+      </div>
+      <div class="feat wide reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 18l6-5 5 3 7-7"/><path d="M3 21h18"/></svg></div>
+        <h3>Walkout basements and river views</h3>
+        <p>By following the natural slope, homes can step down with the land so lower floors open straight
+          outside, with windows pointed toward the river to the southeast.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="band" id="gallery">
+  <div class="wrap center reveal">
+    <span class="eyebrow">Sample Plans</span>
+    <h2 class="sec-title">Pictures to spark the imagination</h2>
+    <p class="lead">These early visuals show how it could all come together one day. Tap any picture to see
+      it full screen, then tap again to zoom right in and explore the little details.</p>
+  </div>
+  <div class="wrap">
+    <div class="gallery" id="gallery">
+      <!-- filled by script -->
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="fbrand">Neil&rsquo;s Land</div>
+  <p>This is just the beginning. With the land understood and the ideas taking shape, the fun part is
+     deciding together what comes next.</p>
+  <p class="fnote">Prepared for Neil &middot; Kamloops, BC &middot; 2026</p>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lb" id="lb">
+  <button class="lb-close" id="lbClose" aria-label="Close">&times;</button>
+  <button class="lb-nav lb-prev" id="lbPrev" aria-label="Previous">&#8249;</button>
+  <button class="lb-nav lb-next" id="lbNext" aria-label="Next">&#8250;</button>
+  <div class="lb-stage" id="lbStage"><img id="lbImg" alt=""></div>
+  <div class="lb-cap" id="lbCap"></div>
+</div>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+}}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+const container = document.getElementById('viewer3d');
+const renderer = new THREE.WebGLRenderer({ antialias:true });
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+container.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0b0f14);
+const camera = new THREE.PerspectiveCamera(50, 1, 0.5, 6000);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true; controls.dampingFactor = 0.08;
+controls.autoRotateSpeed = 0.9;
+
+scene.add(new THREE.HemisphereLight(0xcfe3ff, 0x35302a, 0.95));
+const sun = new THREE.DirectionalLight(0xfff4e6, 1.15); sun.position.set(-1,1.4,0.6); scene.add(sun);
+scene.add(new THREE.AmbientLight(0xffffff,0.2));
+
+function sizeRenderer(){
+  const w = container.clientWidth, h = container.clientHeight;
+  renderer.setSize(w,h); camera.aspect = w/h; camera.updateProjectionMatrix();
+}
+
+function turbo(t){t=Math.min(1,Math.max(0,t));
+  const r=Math.max(0,Math.min(1,(34.61+t*(1172.33+t*(-10793.56+t*(33300.12+t*(-38394.49+t*14825.05)))))/255));
+  const g=Math.max(0,Math.min(1,(23.31+t*(557.33+t*(1225.33+t*(-3574.96+t*(2520.30-t*628.96)))))/255));
+  const b=Math.max(0,Math.min(1,(27.2+t*(3211.1+t*(-15327.97+t*(27814+t*(-22569.18+t*6838.66)))))/255));
+  return [r,g,b];}
+
+let mesh, matPhoto, matElev, zmin=0, zmax=1, interval=1.0;
+function addContours(mat){
+  mat.userData.contour={value:0};
+  mat.onBeforeCompile=(sh)=>{
+    sh.uniforms.uContour=mat.userData.contour; sh.uniforms.uInterval={value:interval};
+    sh.vertexShader='varying float vY;\n'+sh.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\n vY=position.y;');
+    sh.fragmentShader='varying float vY;\nuniform float uContour;\nuniform float uInterval;\n'+
+      sh.fragmentShader.replace('#include <dithering_fragment>',
+      `#include <dithering_fragment>
+       if(uContour>0.5){float e=vY/uInterval;float f=abs(fract(e)-0.5);float w=fwidth(e);
+       float line=1.0-smoothstep(0.0,w*1.5,0.5-f-w*0.5);
+       gl_FragColor.rgb=mix(gl_FragColor.rgb,vec3(0.05,0.05,0.07),line*0.85);}`);
+  };
+  return mat;
+}
+
+new GLTFLoader().load('viewer/terrain.glb',(gltf)=>{
+  const l=document.getElementById('vLoading'); if(l) l.remove();
+  gltf.scene.traverse(o=>{if(o.isMesh) mesh=o;});
+  const geo=mesh.geometry; geo.computeBoundingBox();
+  const bb=geo.boundingBox; zmin=bb.min.y; zmax=bb.max.y;
+  const pos=geo.attributes.position; const col=new Float32Array(pos.count*3);
+  for(let i=0;i<pos.count;i++){const t=(pos.getY(i)-zmin)/(zmax-zmin);const c=turbo(t);
+    col[i*3]=c[0];col[i*3+1]=c[1];col[i*3+2]=c[2];}
+  geo.setAttribute('color',new THREE.BufferAttribute(col,3));
+  geo.translate(0,-zmin,0);
+  matPhoto=mesh.material; matPhoto.roughness=1; matPhoto.metalness=0; addContours(matPhoto);
+  matElev=new THREE.MeshStandardMaterial({vertexColors:true,roughness:1,metalness:0}); addContours(matElev);
+  mesh.scale.y=2.5;
+  scene.add(gltf.scene);
+  sizeRenderer();
+  const size=bb.getSize(new THREE.Vector3()); const span=Math.max(size.x,size.z);
+  controls.target.set(0,(zmax-zmin)*1.0,0);
+  camera.position.set(span*0.10, span*0.78, span*1.0); controls.update();
+},undefined,(e)=>{const l=document.getElementById('vLoading');if(l)l.textContent='Could not load the 3D model here.';console.error(e);});
+
+// viewer UI
+const exag=document.getElementById('exag'), exVal=document.getElementById('exVal');
+exag.oninput=()=>{if(mesh)mesh.scale.y=parseFloat(exag.value);exVal.innerHTML=(+exag.value).toFixed(1)+'×';};
+document.querySelectorAll('#modeSeg button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('#modeSeg button').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+  const elev=b.dataset.mode==='elev'; if(mesh)mesh.material=elev?matElev:matPhoto;
+  document.getElementById('vLegend').style.display=elev?'block':'none'; applyToggles();
+});
+function applyToggles(){ if(!mesh)return;
+  const c=document.getElementById('contours').checked?1:0;
+  if(matPhoto?.userData.contour)matPhoto.userData.contour.value=c;
+  if(matElev?.userData.contour)matElev.userData.contour.value=c;
+}
+document.getElementById('contours').onchange=applyToggles;
+document.getElementById('spin').onchange=e=>controls.autoRotate=e.target.checked;
+
+window.addEventListener('resize',sizeRenderer);
+(function loop(){requestAnimationFrame(loop);controls.update();renderer.render(scene,camera);})();
+</script>
+
+<script>
+// nav solidify
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('solid',scrollY>60));
+
+// reveal on scroll
+const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// gallery + lightbox
+const PLANS=[
+  {src:'assets/plans/plan1.jpg',thumb:'assets/plans/plan1_thumb.jpg',cap:'A full aerial look at the property coming to life'},
+  {src:'assets/plans/plan4.jpg',thumb:'assets/plans/plan4_thumb.jpg',cap:'The site plan, with each building and space labelled'},
+  {src:'assets/plans/plan2.jpg',thumb:'assets/plans/plan2_thumb.jpg',cap:'Homes, gardens and gathering spaces nestled into the land'},
+  {src:'assets/plans/plan3.jpg',thumb:'assets/plans/plan3_thumb.jpg',cap:'A birds eye view of how it all fits together'},
+];
+const gal=document.getElementById('gallery');
+PLANS.forEach((p,i)=>{
+  const d=document.createElement('div'); d.className='gitem reveal'; d.dataset.i=i;
+  d.innerHTML=`<img src="${p.thumb}" alt="${p.cap}" loading="lazy">
+    <div class="cap"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"/></svg>${p.cap}</div>`;
+  d.onclick=()=>openLB(i); gal.appendChild(d); io.observe(d);
+});
+
+const lb=document.getElementById('lb'), lbImg=document.getElementById('lbImg'),
+      lbCap=document.getElementById('lbCap');
+let cur=0, zoomed=false;
+function openLB(i){cur=i;zoomed=false;lbImg.classList.remove('zoomed');lbImg.style.transform='';
+  lbImg.src=PLANS[i].src;lbCap.textContent=PLANS[i].cap;lb.classList.add('open');document.body.style.overflow='hidden';}
+function closeLB(){lb.classList.remove('open');document.body.style.overflow='';}
+function nav2(d){cur=(cur+d+PLANS.length)%PLANS.length;zoomed=false;lbImg.classList.remove('zoomed');
+  lbImg.style.transform='';lbImg.src=PLANS[cur].src;lbCap.textContent=PLANS[cur].cap;}
+document.getElementById('lbClose').onclick=closeLB;
+document.getElementById('lbPrev').onclick=e=>{e.stopPropagation();nav2(-1);};
+document.getElementById('lbNext').onclick=e=>{e.stopPropagation();nav2(1);};
+lb.onclick=e=>{if(e.target===lb||e.target.id==='lbStage')closeLB();};
+addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;
+  if(e.key==='Escape')closeLB();if(e.key==='ArrowLeft')nav2(-1);if(e.key==='ArrowRight')nav2(1);});
+
+// click to zoom + drag to pan
+let panning=false,moved=false,sx=0,sy=0,tx=0,ty=0;
+function applyT(s){lbImg.style.transform=`translate(${tx}px,${ty}px) scale(${s})`;}
+lbImg.addEventListener('click',e=>{e.stopPropagation();
+  if(moved){moved=false;return;}                 // ignore the click that ends a drag
+  if(!zoomed){zoomed=true;lbImg.classList.add('zoomed');tx=0;ty=0;applyT(2.4);}
+  else{zoomed=false;lbImg.classList.remove('zoomed');tx=0;ty=0;lbImg.style.transform='';}});
+lbImg.addEventListener('mousedown',e=>{if(!zoomed)return;panning=true;moved=false;
+  sx=e.clientX-tx;sy=e.clientY-ty;lbImg.style.cursor='grabbing';e.preventDefault();});
+addEventListener('mousemove',e=>{if(!panning)return;tx=e.clientX-sx;ty=e.clientY-sy;moved=true;applyT(2.4);});
+addEventListener('mouseup',()=>{panning=false;if(zoomed)lbImg.style.cursor='grab';});
+</script>
+</body>
+</html>

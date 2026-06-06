@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>10-Acre Property — 3D Terrain Viewer</title>
+<style>
+  :root { --panel: rgba(18,22,28,.82); --acc: #36c; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; font-family: -apple-system, Segoe UI, Roboto, sans-serif; background: #0b0f14; color: #e6edf3; }
+  #app { position: fixed; inset: 0; }
+  #ui { position: absolute; top: 12px; left: 12px; width: 270px; background: var(--panel); backdrop-filter: blur(8px); border: 1px solid #2a3340; border-radius: 12px; padding: 14px 16px; font-size: 13px; }
+  #ui h1 { font-size: 15px; margin: 0 0 2px; }
+  #ui .sub { color: #8b97a6; font-size: 11px; margin-bottom: 12px; }
+  .row { margin: 10px 0; }
+  .row label { display: flex; justify-content: space-between; margin-bottom: 4px; color: #c2ccd8; }
+  .row .val { color: #7fd1ff; font-variant-numeric: tabular-nums; }
+  input[type=range] { width: 100%; accent-color: var(--acc); }
+  .seg { display: flex; gap: 6px; }
+  .seg button { flex: 1; padding: 7px 0; background: #1b2230; color: #c2ccd8; border: 1px solid #2a3340; border-radius: 8px; cursor: pointer; font-size: 12px; }
+  .seg button.on { background: var(--acc); color: #fff; border-color: var(--acc); }
+  .chk { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 4px 0; }
+  .chk input { accent-color: var(--acc); }
+  #legend { position: absolute; bottom: 14px; left: 12px; background: var(--panel); border: 1px solid #2a3340; border-radius: 10px; padding: 10px 12px; font-size: 11px; display: none; }
+  #legend .bar { width: 150px; height: 12px; border-radius: 3px; margin-bottom: 4px;
+    background: linear-gradient(90deg,#30123b,#4145ab,#1fa187,#a2fc3c,#fabc2a,#e4460a,#7a0403); }
+  #legend .ends { display: flex; justify-content: space-between; color: #c2ccd8; }
+  #compass { position: absolute; top: 12px; right: 12px; width: 64px; height: 64px; background: var(--panel); border: 1px solid #2a3340; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  #compass svg { transform-origin: 50% 50%; }
+  #hud { position: absolute; bottom: 14px; right: 12px; background: var(--panel); border: 1px solid #2a3340; border-radius: 10px; padding: 8px 12px; font-size: 11px; color: #8b97a6; text-align: right; line-height: 1.5; }
+  #hud b { color: #e6edf3; font-weight: 600; }
+  #loading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #8b97a6; }
+  .hint { color:#6f7d8c; font-size:10.5px; margin-top:10px; line-height:1.45 }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="loading">Loading terrain…</div>
+
+<div id="ui">
+  <h1>10-Acre Property</h1>
+  <div class="sub">3D terrain from drone contour survey · Kamloops, BC</div>
+
+  <div class="row">
+    <label>Surface</label>
+    <div class="seg" id="modeSeg">
+      <button data-mode="photo" class="on">Orthophoto</button>
+      <button data-mode="elev">Elevation</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <label>Vertical exaggeration <span class="val" id="exVal">2.5×</span></label>
+    <input type="range" id="exag" min="1" max="10" step="0.5" value="2.5" />
+  </div>
+
+  <div class="row">
+    <label class="chk"><input type="checkbox" id="contours" /> Contour lines (1 m)</label>
+    <label class="chk"><input type="checkbox" id="wire" /> Wireframe</label>
+    <label class="chk"><input type="checkbox" id="spin" /> Auto-rotate</label>
+  </div>
+
+  <div class="hint">Drag to orbit · scroll to zoom · right-drag (or two-finger) to pan.</div>
+</div>
+
+<div id="legend">
+  <div class="bar"></div>
+  <div class="ends"><span id="lmin">–</span><span>elevation (m)</span><span id="lmax">–</span></div>
+</div>
+
+<div id="compass" title="North">
+  <svg width="40" height="40" viewBox="0 0 40 40" id="needle">
+    <polygon points="20,4 25,22 20,18 15,22" fill="#e4460a"/>
+    <polygon points="20,36 25,18 20,22 15,18" fill="#6f7d8c"/>
+    <text x="20" y="14" text-anchor="middle" font-size="9" fill="#fff" font-family="sans-serif">N</text>
+  </svg>
+</div>
+
+<div id="hud">
+  <div><b id="hElev">–</b> elevation range</div>
+  <div><b id="hSize">–</b> footprint</div>
+  <div><b id="hTris">–</b> triangles</div>
+</div>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+}}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+const app = document.getElementById('app');
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+app.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0b0f14);
+
+const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.5, 5000);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.08;
+
+// lighting
+scene.add(new THREE.HemisphereLight(0xcfe3ff, 0x35302a, 0.9));
+const sun = new THREE.DirectionalLight(0xfff4e6, 1.15);
+sun.position.set(-1, 1.4, 0.6);
+scene.add(sun);
+scene.add(new THREE.AmbientLight(0xffffff, 0.18));
+
+// turbo-ish ramp for elevation colouring
+function turbo(t) {
+  t = Math.min(1, Math.max(0, t));
+  const r = Math.max(0, Math.min(1, 34.61 + t*(1172.33 + t*(-10793.56 + t*(33300.12 + t*(-38394.49 + t*14825.05))))) / 255);
+  const g = Math.max(0, Math.min(1, 23.31 + t*(557.33 + t*(1225.33 + t*(-3574.96 + t*(2520.30 - t*628.96))))) / 255);
+  const b = Math.max(0, Math.min(1, 27.2 + t*(3211.1 + t*(-15327.97 + t*(27814 + t*(-22569.18 + t*6838.66))))) / 255);
+  return [r, g, b];
+}
+
+let mesh, matPhoto, matElev, baseY = 0, zmin = 0, zmax = 1, interval = 1.0;
+
+// inject a 1 m contour overlay into any standard material
+function addContours(mat) {
+  mat.userData.contour = { value: 0 };
+  mat.onBeforeCompile = (shader) => {
+    shader.uniforms.uContour = mat.userData.contour;
+    shader.uniforms.uZmin = { value: zmin };
+    shader.uniforms.uInterval = { value: interval };
+    shader.vertexShader = 'varying float vTrueY;\n' + shader.vertexShader.replace(
+      '#include <begin_vertex>', '#include <begin_vertex>\n vTrueY = position.y;');
+    shader.fragmentShader = 'varying float vTrueY;\nuniform float uContour;\nuniform float uZmin;\nuniform float uInterval;\n' +
+      shader.fragmentShader.replace('#include <dithering_fragment>',
+      `#include <dithering_fragment>
+       if (uContour > 0.5) {
+         float e = (vTrueY) / uInterval;
+         float f = abs(fract(e) - 0.5);
+         float w = fwidth(e);
+         float line = 1.0 - smoothstep(0.0, w*1.5, 0.5 - f - w*0.5);
+         gl_FragColor.rgb = mix(gl_FragColor.rgb, vec3(0.03,0.03,0.05), line*0.9);
+       }`);
+  };
+  return mat;
+}
+
+new GLTFLoader().load('terrain.glb', (gltf) => {
+  document.getElementById('loading').remove();
+  gltf.scene.traverse(o => { if (o.isMesh) mesh = o; });
+
+  const geo = mesh.geometry;
+  geo.computeBoundingBox();
+  const bb = geo.boundingBox;
+  baseY = bb.min.y;                 // ~353 m
+  zmin = bb.min.y; zmax = bb.max.y;
+
+  // build per-vertex elevation colours (from TRUE height, before any exaggeration)
+  const pos = geo.attributes.position;
+  const col = new Float32Array(pos.count * 3);
+  for (let i = 0; i < pos.count; i++) {
+    const t = (pos.getY(i) - zmin) / (zmax - zmin);
+    const c = turbo(t);
+    col[i*3] = c[0]; col[i*3+1] = c[1]; col[i*3+2] = c[2];
+  }
+  geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
+
+  // drop terrain so its base sits on Y=0 -> exaggeration scales about the base
+  geo.translate(0, -baseY, 0);
+
+  // photo material = the GLB's textured material
+  matPhoto = mesh.material;
+  matPhoto.roughness = 1.0; matPhoto.metalness = 0.0;
+  addContours(matPhoto);
+
+  // elevation material = vertex colours
+  matElev = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 1.0, metalness: 0.0 });
+  addContours(matElev);
+
+  scene.add(gltf.scene);
+
+  mesh.scale.y = 2.5;   // default vertical exaggeration
+
+  // frame camera
+  const size = bb.getSize(new THREE.Vector3());
+  const span = Math.max(size.x, size.z);
+  controls.target.set(0, (zmax - zmin) / 2, 0);
+  camera.position.set(span * 0.05, span * 0.75, span * 0.95);
+  controls.update();
+
+  // HUD + legend
+  document.getElementById('hElev').textContent = `${zmin.toFixed(0)}–${zmax.toFixed(0)} m`;
+  document.getElementById('hSize').textContent = `${size.x.toFixed(0)} × ${size.z.toFixed(0)} m`;
+  document.getElementById('hTris').textContent = (geo.index ? geo.index.count/3 : pos.count/3).toLocaleString() + ' tris';
+  document.getElementById('lmin').textContent = zmin.toFixed(0);
+  document.getElementById('lmax').textContent = zmax.toFixed(0);
+}, undefined, (e) => {
+  document.getElementById('loading').textContent = 'Failed to load terrain.glb — serve this folder over http (see README).';
+  console.error(e);
+});
+
+// ---- UI ----
+const exag = document.getElementById('exag'), exVal = document.getElementById('exVal');
+exag.oninput = () => { if (mesh) mesh.scale.y = parseFloat(exag.value); exVal.textContent = (+exag.value).toFixed(1) + '×'; };
+
+document.querySelectorAll('#modeSeg button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('#modeSeg button').forEach(x => x.classList.remove('on'));
+  b.classList.add('on');
+  const elev = b.dataset.mode === 'elev';
+  if (mesh) mesh.material = elev ? matElev : matPhoto;
+  document.getElementById('legend').style.display = elev ? 'block' : 'none';
+  syncToggles();
+});
+
+function syncToggles() {
+  if (!mesh) return;
+  mesh.material.wireframe = document.getElementById('wire').checked;
+  const c = document.getElementById('contours').checked ? 1 : 0;
+  if (matPhoto?.userData.contour) matPhoto.userData.contour.value = c;
+  if (matElev?.userData.contour) matElev.userData.contour.value = c;
+}
+document.getElementById('wire').onchange = syncToggles;
+document.getElementById('contours').onchange = syncToggles;
+document.getElementById('spin').onchange = e => controls.autoRotate = e.target.checked;
+controls.autoRotateSpeed = 1.2;
+
+// compass: rotate needle opposite to camera azimuth. North = -Z in model space.
+const needle = document.getElementById('needle');
+addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+
+(function loop() {
+  requestAnimationFrame(loop);
+  controls.update();
+  const az = Math.atan2(camera.position.x, camera.position.z);
+  needle.style.transform = `rotate(${az}rad)`;
+  renderer.render(scene, camera);
+})();
+</script>
+</body>
+</html>
