@@ -134,8 +134,8 @@ section{position:relative}
 .feat.wide p{color:rgba(255,255,255,.85)}
 
 /* gallery */
-.gallery{columns:2;column-gap:22px;margin-top:54px}
-.gitem{break-inside:avoid;margin-bottom:22px;border-radius:var(--r);overflow:hidden;position:relative;cursor:zoom-in;
+.gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:54px}
+.gitem{border-radius:var(--r);overflow:hidden;position:relative;cursor:zoom-in;
   box-shadow:var(--shadow-sm);transition:.3s ease;background:#ddd}
 .gitem:hover{box-shadow:var(--shadow);transform:translateY(-4px)}
 .gitem img{width:100%;transition:.5s ease}
@@ -180,7 +180,7 @@ footer .fnote{margin-top:22px;font-size:.82rem;color:rgba(255,255,255,.45)}
   .navlinks{display:none}
   .vision-grid{grid-template-columns:1fr}
   .feat.wide{grid-column:span 1}
-  .gallery{columns:1}
+  .gallery{grid-template-columns:1fr}
   .v-toolbar{width:170px;padding:11px 12px}
   .lb-nav{width:44px;height:44px}
 }
@@ -277,8 +277,7 @@ footer .fnote{margin-top:22px;font-size:.82rem;color:rgba(255,255,255,.45)}
         <div class="v-hint">Drag to look around &middot; scroll to zoom</div>
       </div>
     </div>
-    <p class="viewer-cap reveal">Your land is gently rolling, so we lifted the heights a little to make the
-      shape easy to enjoy. Slide it back to 1&times; to see the true, natural slope.</p>
+
   </div>
 </section>
 
@@ -347,7 +346,7 @@ footer .fnote{margin-top:22px;font-size:.82rem;color:rgba(255,255,255,.45)}
       it full screen, then tap again to zoom right in and explore the little details.</p>
   </div>
   <div class="wrap">
-    <div class="gallery" id="gallery">
+    <div class="gallery" id="galleryGrid">
       <!-- filled by script -->
     </div>
   </div>
@@ -481,7 +480,7 @@ const PLANS=[
   {src:'assets/plans/plan2.jpg',thumb:'assets/plans/plan2_thumb.jpg',cap:'Homes, gardens and gathering spaces nestled into the land'},
   {src:'assets/plans/plan3.jpg',thumb:'assets/plans/plan3_thumb.jpg',cap:'A birds eye view of how it all fits together'},
 ];
-const gal=document.getElementById('gallery');
+const gal=document.getElementById('galleryGrid');
 PLANS.forEach((p,i)=>{
   const d=document.createElement('div'); d.className='gitem reveal'; d.dataset.i=i;
   d.innerHTML=`<img src="${p.thumb}" alt="${p.cap}" loading="lazy">
