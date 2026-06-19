@@ -160,6 +160,55 @@ section{position:relative}
 .lb-cap{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.85);
   font-size:.9rem;letter-spacing:.02em;background:rgba(0,0,0,.4);padding:8px 18px;border-radius:999px}
 
+/* proposal / zones */
+.zone-legend{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:30px 0 0}
+.zone-legend .chip{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid rgba(22,59,42,.08);
+  border-radius:999px;padding:9px 18px 9px 9px;box-shadow:var(--shadow-sm);font-size:.92rem;font-weight:500;color:var(--ink)}
+.zone-legend .chip .b{width:28px;height:28px;border-radius:50%;background:var(--moss);color:#fff;font-family:Fraunces;
+  display:flex;align-items:center;justify-content:center;font-size:.92rem}
+.planstage{position:relative;max-width:720px;margin:48px auto 0;border-radius:var(--r);overflow:hidden;
+  box-shadow:var(--shadow);cursor:zoom-in;background:#dcd}
+.planstage img{width:100%;display:block;transition:.6s ease}
+.planstage:hover img{transform:scale(1.03)}
+.zone-pin{position:absolute;transform:translate(-50%,-50%);z-index:2;pointer-events:none}
+.zone-pin .dot{width:32px;height:32px;border-radius:50%;background:var(--gold);color:#21180a;font-family:Fraunces;
+  display:flex;align-items:center;justify-content:center;font-weight:600;animation:pin 2.6s ease-in-out infinite}
+.zone-pin .tag{position:absolute;left:50%;top:calc(100% + 7px);transform:translateX(-50%);white-space:nowrap;
+  background:rgba(14,22,18,.86);color:#fff;font-size:.7rem;padding:3px 10px;border-radius:999px;letter-spacing:.02em}
+@keyframes pin{0%,100%{box-shadow:0 0 0 5px rgba(198,162,91,.4),0 6px 16px rgba(0,0,0,.45)}
+  50%{box-shadow:0 0 0 13px rgba(198,162,91,0),0 6px 16px rgba(0,0,0,.45)}}
+.plan-cap{text-align:center;color:var(--muted);font-size:.95rem;margin-top:18px}
+.zone{display:grid;grid-template-columns:1.04fr 1fr;gap:42px;align-items:center;margin-top:66px}
+.zone.alt{grid-template-columns:1fr 1.04fr}
+.zone.alt .zone-txt{order:2}
+.zone-imgs{display:flex;flex-direction:column;gap:16px}
+.zone-imgs .zoomable{border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);cursor:zoom-in;background:#ddd}
+.zone-imgs .zoomable img{width:100%;display:block;transition:.5s ease}
+.zone-imgs .zoomable:hover img{transform:scale(1.04)}
+.zone-num{font-family:Fraunces;font-size:1rem;width:46px;height:46px;border-radius:50%;background:var(--moss);color:#fff;
+  display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.zone-txt .sub{color:var(--clay);font-weight:600;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;
+  display:block;margin-bottom:10px}
+.zone-txt h3{font-size:clamp(1.4rem,3vw,1.85rem);margin-bottom:.6rem}
+.zone-txt p{color:var(--muted);margin:0}
+.zone-feats{list-style:none;padding:0;margin:18px 0 0;display:flex;flex-wrap:wrap;gap:8px}
+.zone-feats li{background:var(--paper-2);border:1px solid rgba(22,59,42,.07);border-radius:999px;padding:6px 14px;
+  font-size:.84rem;color:var(--forest)}
+.aspire{margin-top:74px;position:relative;border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);cursor:zoom-in}
+.aspire img{width:100%;display:block;filter:saturate(.95)}
+.aspire .ov{position:absolute;inset:0;display:flex;align-items:center;padding:0 7%;
+  background:linear-gradient(90deg,rgba(8,18,12,.86),rgba(8,18,12,.45) 55%,rgba(8,18,12,.1))}
+.aspire .ov .box{max-width:460px;color:#fff}
+.aspire .ov .t{display:inline-block;background:var(--gold);color:#21180a;font-size:.7rem;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;padding:5px 13px;border-radius:999px;margin-bottom:14px}
+.aspire .ov h3{font-size:clamp(1.4rem,3vw,2rem);margin-bottom:.6rem}
+.aspire .ov p{color:rgba(255,255,255,.86);margin:0;font-size:.98rem}
+.devwrap{margin-top:78px}
+.devgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:12px;margin-top:26px}
+.devgrid .zoomable{border-radius:12px;overflow:hidden;cursor:zoom-in;background:#ddd;aspect-ratio:1;box-shadow:var(--shadow-sm)}
+.devgrid .zoomable img{width:100%;height:100%;object-fit:cover;transition:.45s ease;filter:grayscale(.2) brightness(.97)}
+.devgrid .zoomable:hover img{transform:scale(1.07);filter:none}
+
 /* footer */
 footer{background:var(--forest-2);color:rgba(255,255,255,.8);text-align:center;padding:70px 24px 50px}
 footer .fbrand{font-family:Fraunces;font-size:1.6rem;color:#fff;margin-bottom:12px}
@@ -175,6 +224,9 @@ footer .fnote{margin-top:22px;font-size:.82rem;color:rgba(255,255,255,.45)}
   .steps{grid-template-columns:1fr}
   .vision-grid{grid-template-columns:repeat(2,1fr)}
   .feat.wide{grid-column:span 2}
+  .zone,.zone.alt{grid-template-columns:1fr;gap:26px}
+  .zone.alt .zone-txt{order:0}
+  .aspire .ov{background:linear-gradient(0deg,rgba(8,18,12,.92),rgba(8,18,12,.3))}
 }
 @media(max-width:680px){
   .navlinks{display:none}
@@ -194,6 +246,7 @@ footer .fnote{margin-top:22px;font-size:.82rem;color:rgba(255,255,255,.45)}
     <a href="#land">The Land</a>
     <a href="#model">3D Model</a>
     <a href="#vision">The Vision</a>
+    <a href="#proposal">The Plan</a>
     <a href="#gallery">Sample Plans</a>
     <a class="cta" href="#model">Explore in 3D</a>
   </div>
@@ -337,6 +390,107 @@ footer .fnote{margin-top:22px;font-size:.82rem;color:rgba(255,255,255,.45)}
   </div>
 </section>
 
+<!-- THE LATEST PROPOSAL -->
+<section class="band sand" id="proposal">
+  <div class="wrap center reveal">
+    <span class="eyebrow">The Latest Proposal</span>
+    <h2 class="sec-title">Three neighbourhoods, one remarkable property</h2>
+    <p class="lead">After our first conversation about what you had in mind, the plan took a big step
+      forward. The land now divides naturally into three welcoming areas, each with its own entrance and
+      its own character, while still feeling like one connected place.</p>
+    <div class="zone-legend">
+      <span class="chip"><span class="b">1</span> Your home and office</span>
+      <span class="chip"><span class="b">2</span> The hilltop homes</span>
+      <span class="chip"><span class="b">3</span> The village</span>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="planstage reveal" data-full="assets/newplan/master.jpg" data-cap="The refined master plan, with all three areas in place">
+      <img src="assets/newplan/master.jpg" alt="Refined master plan of the property" loading="lazy">
+      <div class="zone-pin" style="left:17%;top:17%"><div class="dot">1</div><div class="tag">Home &amp; office</div></div>
+      <div class="zone-pin" style="left:62%;top:30%"><div class="dot">2</div><div class="tag">Hilltop homes</div></div>
+      <div class="zone-pin" style="left:52%;top:74%"><div class="dot">3</div><div class="tag">The village</div></div>
+    </div>
+    <p class="plan-cap reveal">The whole property at a glance. Tap the plan to open it full screen.</p>
+
+    <!-- Zone 1 -->
+    <div class="zone reveal">
+      <div class="zone-imgs">
+        <div class="zoomable" data-full="assets/newplan/home.jpg" data-cap="Your home and its nearby office, seen from above">
+          <img src="assets/newplan/home_thumb.jpg" alt="Neil's home and office from above" loading="lazy"></div>
+      </div>
+      <div class="zone-txt">
+        <div class="zone-num">1</div>
+        <span class="sub">The quiet corner</span>
+        <h3>Your home, with its own front door</h3>
+        <p>Your private residence keeps its own separate entrance, tucked into a calm corner of the
+          property with plenty of room to breathe. A dedicated office sits right alongside it, so work
+          stays close to home without ever feeling on top of it.</p>
+        <ul class="zone-feats"><li>Private separate entry</li><li>Office right alongside</li><li>Set quietly apart</li></ul>
+      </div>
+    </div>
+
+    <!-- Zone 2 -->
+    <div class="zone alt reveal">
+      <div class="zone-txt">
+        <div class="zone-num">2</div>
+        <span class="sub">The hilltop &middot; facing the river</span>
+        <h3>Three premium homes with the finest views</h3>
+        <p>Up on the higher ground sit three generous homes, each one turned to look southeast toward the
+          river. This is the showcase of the property: large lots, beautiful outlooks, and a quiet shared
+          lane that links them together.</p>
+        <ul class="zone-feats"><li>Three large homes</li><li>Southeast river views</li><li>Private shared lane</li></ul>
+      </div>
+      <div class="zone-imgs">
+        <div class="zoomable" data-full="assets/newplan/houses_top.jpg" data-cap="The three hilltop homes along their shared lane">
+          <img src="assets/newplan/houses_top_thumb.jpg" alt="Three hilltop homes from above" loading="lazy"></div>
+        <div class="zoomable" data-full="assets/newplan/houses_elev.jpg" data-cap="The style of home we picture up on the hill">
+          <img src="assets/newplan/houses_elev_thumb.jpg" alt="A luxury home at ground level" loading="lazy"></div>
+      </div>
+    </div>
+
+    <!-- Zone 3 -->
+    <div class="zone reveal">
+      <div class="zone-imgs">
+        <div class="zoomable" data-full="assets/newplan/village.jpg" data-cap="The village: townhouses, pool and the common building">
+          <img src="assets/newplan/village_thumb.jpg" alt="Townhouse village with pool and common building" loading="lazy"></div>
+      </div>
+      <div class="zone-txt">
+        <div class="zone-num">3</div>
+        <span class="sub">The south side</span>
+        <h3>A friendly little village</h3>
+        <p>The south side becomes a small community of its own. A row of townhouses gathers around a green
+          and a swimming pool for warm days, with a shared common building at its heart that brings
+          everyone together.</p>
+        <ul class="zone-feats"><li>Townhouses</li><li>Swimming pool</li><li>Gym</li><li>Craft shop</li><li>Pool changing rooms</li><li>Offices to rent</li><li>Confectionery shop</li></ul>
+      </div>
+    </div>
+
+    <!-- Aspirational -->
+    <div class="aspire reveal" data-full="assets/newplan/aspirational.jpg" data-cap="An ultra-modern concept we explored for the hilltop homes">
+      <img src="assets/newplan/aspirational.jpg" alt="Aspirational ultra-modern villas concept" loading="lazy">
+      <div class="ov"><div class="box">
+        <span class="t">A bigger dream</span>
+        <h3>We even imagined going ultra modern</h3>
+        <p>These sleek villas were a stretch idea for the hilltop. They reach beyond what makes sense to
+          build right now, but they show just how far the vision could one day go.</p>
+      </div></div>
+    </div>
+
+    <!-- Behind the scenes -->
+    <div class="devwrap reveal">
+      <div class="center" style="max-width:640px">
+        <span class="eyebrow">Behind the scenes</span>
+        <h3 class="sec-title" style="font-size:clamp(1.5rem,3vw,2.1rem)">How the plan came together</h3>
+        <p class="lead" style="font-size:1rem">A quick peek at the sketches, notes and trial layouts from
+          working this all out. Tap any one to take a closer look.</p>
+      </div>
+      <div class="devgrid" id="devgrid"><!-- filled by script --></div>
+    </div>
+  </div>
+</section>
+
 <!-- GALLERY -->
 <section class="band" id="gallery">
   <div class="wrap center reveal">
@@ -473,7 +627,7 @@ addEventListener('scroll',()=>nav.classList.toggle('solid',scrollY>60));
 const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-// gallery + lightbox
+// gallery items (earlier concepts)
 const PLANS=[
   {src:'assets/plans/plan1.jpg',thumb:'assets/plans/plan1_thumb.jpg',cap:'A full aerial look at the property coming to life'},
   {src:'assets/plans/plan4.jpg',thumb:'assets/plans/plan4_thumb.jpg',cap:'The site plan, with each building and space labelled'},
@@ -481,21 +635,35 @@ const PLANS=[
   {src:'assets/plans/plan3.jpg',thumb:'assets/plans/plan3_thumb.jpg',cap:'A birds eye view of how it all fits together'},
 ];
 const gal=document.getElementById('galleryGrid');
-PLANS.forEach((p,i)=>{
-  const d=document.createElement('div'); d.className='gitem reveal'; d.dataset.i=i;
+PLANS.forEach((p)=>{
+  const d=document.createElement('div'); d.className='gitem reveal';
+  d.dataset.full=p.src; d.dataset.cap=p.cap;
   d.innerHTML=`<img src="${p.thumb}" alt="${p.cap}" loading="lazy">
     <div class="cap"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"/></svg>${p.cap}</div>`;
-  d.onclick=()=>openLB(i); gal.appendChild(d); io.observe(d);
+  gal.appendChild(d); io.observe(d);
 });
 
+// development image grid (behind the scenes)
+const dg=document.getElementById('devgrid');
+for(let n=1;n<=9;n++){
+  const d=document.createElement('div'); d.className='zoomable';
+  d.dataset.full=`assets/newplan/dev/dev${n}.jpg`; d.dataset.cap='A working image from planning this out';
+  d.innerHTML=`<img src="assets/newplan/dev/dev${n}_thumb.jpg" alt="Planning image ${n}" loading="lazy">`;
+  dg.appendChild(d);
+}
+
+// unified lightbox built from every [data-full] element, in document order
 const lb=document.getElementById('lb'), lbImg=document.getElementById('lbImg'),
       lbCap=document.getElementById('lbCap');
+const lbEls=[...document.querySelectorAll('[data-full]')];
+const LB=lbEls.map(el=>({src:el.dataset.full,cap:el.dataset.cap||''}));
+lbEls.forEach((el,i)=>el.addEventListener('click',()=>openLB(i)));
 let cur=0, zoomed=false;
 function openLB(i){cur=i;zoomed=false;lbImg.classList.remove('zoomed');lbImg.style.transform='';
-  lbImg.src=PLANS[i].src;lbCap.textContent=PLANS[i].cap;lb.classList.add('open');document.body.style.overflow='hidden';}
+  lbImg.src=LB[i].src;lbCap.textContent=LB[i].cap;lb.classList.add('open');document.body.style.overflow='hidden';}
 function closeLB(){lb.classList.remove('open');document.body.style.overflow='';}
-function nav2(d){cur=(cur+d+PLANS.length)%PLANS.length;zoomed=false;lbImg.classList.remove('zoomed');
-  lbImg.style.transform='';lbImg.src=PLANS[cur].src;lbCap.textContent=PLANS[cur].cap;}
+function nav2(d){cur=(cur+d+LB.length)%LB.length;zoomed=false;lbImg.classList.remove('zoomed');
+  lbImg.style.transform='';lbImg.src=LB[cur].src;lbCap.textContent=LB[cur].cap;}
 document.getElementById('lbClose').onclick=closeLB;
 document.getElementById('lbPrev').onclick=e=>{e.stopPropagation();nav2(-1);};
 document.getElementById('lbNext').onclick=e=>{e.stopPropagation();nav2(1);};
